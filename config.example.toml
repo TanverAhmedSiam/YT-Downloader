@@ -1,0 +1,103 @@
+# ytdl-studio configuration
+# ---------------------------------------------------------------------------
+# Copy this file to one of the following locations:
+#   * ./ytdl-studio.toml                       (project/current folder, highest priority)
+#   * %APPDATA%\ytdl-studio\config.toml        (Windows)
+#   * ~/Library/Application Support/ytdl-studio/config.toml (macOS)
+#   * $XDG_CONFIG_HOME/ytdl-studio/config.toml or ~/.config/ytdl-studio/config.toml (Linux)
+#
+# Every value can be overridden per command with the matching CLI flag.
+# Unknown keys are ignored, so the file is safe to share between versions.
+
+# ---------------------------------------------------------------------------
+# Format and quality
+# ---------------------------------------------------------------------------
+# Any preset accepted by `ytdl download -f`: best, 8k, 4k, 1440p, 1080p,
+# 720p, 480p, mp4, mp4-h264, mp4-h265, webm, webm-vp9, webm-av1, mkv, mov,
+# gif, mp3, m4a, aac, opus, ogg, flac, wav, alac.
+format = "best"
+
+# Optional height cap applied to video presets, e.g. "1080p" or 720.
+# Leave empty (or omit) for no cap.
+# quality = "1080p"
+
+# Audio bitrate in kbps for lossy formats (8-512). Lossless formats ignore it.
+bitrate = 320
+
+# ---------------------------------------------------------------------------
+# Output
+# ---------------------------------------------------------------------------
+# Base directory for relative output templates.
+directory = "downloads"
+
+# Custom yt-dlp output template. Absolute paths are respected.
+# Leave empty to use the built-in defaults:
+#   video: {channel_or_uploader}/{upload_year}/{title} [{id}].{ext}
+#   music: {artist}/{album}/{track_number:02d} - {title}.{ext}
+#
+# Example:
+# output = "%(uploader)s/%(title)s [%(id)s].%(ext)s"
+
+# Keep the intermediate video/audio source after conversion.
+keep_video = false
+
+# Skip items listed in this yt-dlp-compatible archive file.
+# archive = ".cache/archive.txt"
+
+# Use aria2c for downloads when it is installed. Falls back to yt-dlp's own
+# downloader automatically when aria2c is missing.
+use_aria2c = true
+
+# ---------------------------------------------------------------------------
+# Mode and metadata
+# ---------------------------------------------------------------------------
+# Treat URLs as YouTube Music items: best audio, full tags, and cover art.
+music = false
+
+subtitles = false
+subtitle_langs = "en"
+
+# Embed thumbnails/cover art, tags, and chapters when the source provides them.
+thumbnail = true
+metadata = true
+chapters = true
+
+# Remove SponsorBlock segments. Use an empty string to disable.
+# Categories: sponsor, selfpromo, interaction, intro, outro, preview,
+# music_offtopic, filler, poi_highlight, or "all".
+sponsorblock = "sponsor,selfpromo"
+
+# ---------------------------------------------------------------------------
+# Playlists, channels, and albums
+# ---------------------------------------------------------------------------
+# 1-based inclusive range. Omit either value for an open-ended range.
+# playlist_start = 1
+# playlist_end = 25
+
+shuffle = false
+reverse = false
+
+# ---------------------------------------------------------------------------
+# Performance and reliability
+# ---------------------------------------------------------------------------
+# Number of items downloaded in parallel. There is no upper cap.
+concurrent = 3
+
+# Optional throttle such as "500K", "10M", or "1.5MiB". Omit for unlimited.
+# rate_limit = "10M"
+
+# yt-dlp retry count for network errors.
+retries = 10
+
+# ---------------------------------------------------------------------------
+# Authentication and network
+# ---------------------------------------------------------------------------
+# Read cookies directly from a browser profile: chrome, firefox, edge, brave,
+# safari, chromium, opera, vivaldi, or whale.
+# cookies_from_browser = "chrome"
+
+# Or use an exported Netscape cookies.txt file.
+# cookies = "C:/Users/me/cookies.txt"
+
+# proxy = "http://127.0.0.1:8080"
+# user_agent = "Mozilla/5.0 (custom)"

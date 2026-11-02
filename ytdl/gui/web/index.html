@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Clyra.dwnldr — paste a link, choose what you want, and download clean files named after their source.">
+<title>Clyra.dwnldr</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 21h16"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4v-.2a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.6v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 8v5m0 3h.01M10.3 3.9 2.7 17a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <a class="brand" href="/" id="brandHome" aria-label="Clyra.dwnldr — home">
+    <span class="brand-mark"><svg><use href="#i-down"/></svg></span>
+    <span class="brand-copy">
+      <span class="brand-name">Clyra<span class="brand-dot">.</span>dwnldr</span>
+    </span>
+  </a>
+  <div class="topbar-right">
+    <span class="connection" id="connection"><i></i><span id="connectionText">connecting</span></span>
+    <button class="icon-btn" id="settingsBtn" type="button" aria-label="Settings" title="Settings">
+      <svg><use href="#i-gear"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="shell">
+  <section class="hero" id="hero">
+    <h1>Paste. Pick. Keep<span class="stop">.</span></h1>
+    <p class="hero-sub">The dream media downloader you've been looking for LIFE!</p>
+    <p class="hero-note">Paste a link, review what's inside, and download only what you want.</p>
+  </section>
+
+  <form class="urlbar" id="urlForm" autocomplete="off" novalidate>
+    <input id="urlInput" name="url" type="text" inputmode="url" spellcheck="false"
+           placeholder="Paste a video, track, playlist or channel link" aria-label="Media link">
+    <button class="urlbar-btn" id="inspectBtn" type="submit">
+      <span id="inspectText">Inspect</span>
+      <svg><use href="#i-arrow"/></svg>
+    </button>
+  </form>
+  <p class="underbar" id="underbar">Playlists and channels open in a picker, so you choose exactly what downloads.</p>
+
+  <section class="result" id="result" hidden aria-live="polite">
+    <div class="source">
+      <div class="thumb" id="thumbWrap"></div>
+      <div class="source-text">
+        <h2 class="source-title" id="mediaTitle"></h2>
+        <p class="source-meta" id="mediaMeta"></p>
+      </div>
+      <button class="icon-btn source-close" id="resetBtn" type="button" aria-label="Clear this link" title="Clear">
+        <svg><use href="#i-x"/></svg>
+      </button>
+    </div>
+
+    <div class="playlist-line" id="playlistLine" hidden>
+      <span class="playlist-badge"><svg><use href="#i-list"/></svg></span>
+      <div class="playlist-copy">
+        <span class="playlist-kicker" id="playlistKicker"></span>
+        <span class="playlist-title" id="playlistText"></span>
+        <span class="playlist-hint" id="playlistHint"></span>
+      </div>
+      <button class="picker-open" id="pickerToggle" type="button" aria-expanded="false" aria-controls="picker">
+        <svg class="picker-open-list"><use href="#i-list"/></svg>
+        <span id="pickerToggleText">Choose from list</span>
+        <svg class="picker-open-chevron"><use href="#i-chevron"/></svg>
+      </button>
+    </div>
+
+    <div class="picker" id="picker" hidden>
+      <div class="picker-head">
+        <input id="pickerSearch" type="text" spellcheck="false" placeholder="Filter items…" aria-label="Filter items">
+        <div class="picker-tools">
+          <select class="picker-sort" id="pickerSort" aria-label="Sort items">
+            <option value="default">Source order</option>
+            <option value="title">Title A–Z</option>
+            <option value="title-desc">Title Z–A</option>
+            <option value="duration">Shortest first</option>
+            <option value="duration-desc">Longest first</option>
+            <option value="uploader">Creator A–Z</option>
+          </select>
+          <button class="text-btn" id="pickAll" type="button">Select all</button>
+          <button class="text-btn" id="pickNone" type="button">Clear</button>
+        </div>
+      </div>
+      <div class="picker-sections" id="pickerSections" hidden></div>
+      <div class="picker-list" id="pickerList"></div>
+      <p class="picker-note" id="pickerNote"></p>
+    </div>
+
+    <div class="control">
+      <div class="control-head">
+        <span class="control-label">Format</span>
+        <span class="control-note" id="formatNote"></span>
+      </div>
+      <div class="seg" role="group" aria-label="Format">
+        <button type="button" id="fmtMp4" aria-pressed="true">MP4</button>
+        <button type="button" id="fmtMp3" aria-pressed="false">MP3</button>
+      </div>
+    </div>
+
+    <div class="control">
+      <div class="control-head">
+        <span class="control-label" id="qualityLabel">Quality</span>
+        <span class="control-note" id="qualityNote"></span>
+      </div>
+      <div class="quality" id="qualityList" role="radiogroup" aria-label="Quality"></div>
+    </div>
+
+    <div class="control">
+      <div class="control-head">
+        <span class="control-label">Save to</span>
+      </div>
+      <button class="dest" id="destBtn" type="button" title="Choose a download folder">
+        <svg><use href="#i-folder"/></svg>
+        <span class="dest-path" id="destPath"></span>
+        <span class="dest-action">Change</span>
+      </button>
+    </div>
+
+    <button class="cta" id="downloadBtn" type="button">
+      <svg><use href="#i-down"/></svg>
+      <span id="ctaText">Download</span>
+    </button>
+    <p class="cta-note" id="ctaNote"></p>
+  </section>
+
+  <section class="queue" id="queue" hidden>
+    <div class="queue-head">
+      <h2>Downloads <span class="queue-count" id="queueCount"></span></h2>
+      <button class="text-btn" id="clearQueueBtn" type="button">Clear finished</button>
+    </div>
+    <div id="queueList"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>Local only · 127.0.0.1</span>
+  <span id="versionLabel"></span>
+</footer>
+
+<dialog class="sheet" id="settingsDialog">
+  <div class="sheet-head">
+    <h2>Settings</h2>
+    <button class="icon-btn" id="closeSettingsBtn" type="button" aria-label="Close settings">
+      <svg><use href="#i-x"/></svg>
+    </button>
+  </div>
+  <div class="sheet-body">
+    <label class="field">
+      <span class="field-label">Download folder</span>
+      <div class="field-row">
+        <input id="destInput" spellcheck="false" placeholder="Choose a folder" autofocus>
+        <button class="ghost-btn" id="browseDestBtn" type="button">Browse</button>
+      </div>
+      <span class="field-hint">Remembered on this machine.</span>
+    </label>
+    <label class="field">
+      <span class="field-label">Browser cookies</span>
+      <select id="browserSelect"></select>
+      <span class="field-hint">Automatic finds a readable signed-in browser; a chosen browser is tried first, then fallback.</span>
+    </label>
+    <label class="field">
+      <span class="field-label">Cookie file</span>
+      <div class="field-row">
+        <input id="cookiesInput" spellcheck="false" placeholder="optional cookies.txt">
+        <button class="ghost-btn" id="browseCookiesBtn" type="button">Browse</button>
+      </div>
+      <span class="field-hint">Optional. Takes priority over browser cookies.</span>
+    </label>
+    <label class="field">
+      <span class="field-label">Proxy</span>
+      <input id="proxyInput" spellcheck="false" placeholder="http://127.0.0.1:8080">
+    </label>
+    <div class="field-grid">
+      <label class="field">
+        <span class="field-label">Parallel downloads</span>
+        <select id="concurrentSelect"></select>
+      </label>
+      <label class="field">
+        <span class="field-label">Retries</span>
+        <input id="retriesInput" type="number" min="0" max="100">
+      </label>
+    </div>
+    <div class="system">
+      <button class="text-btn" id="checkBtn" type="button">Run system check</button>
+      <div class="system-result" id="systemResult" hidden></div>
+    </div>
+  </div>
+</dialog>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<template id="qualityRowTemplate">
+  <label class="q-row">
+    <input type="radio" name="quality" hidden>
+    <span class="q-dot"></span>
+    <span class="q-name"></span>
+    <span class="q-fps" hidden></span>
+    <span class="q-leader"></span>
+    <span class="q-size"></span>
+  </label>
+</template>
+
+<template id="pickerRowTemplate">
+  <div class="pl-row">
+    <button class="pl-expand" type="button" aria-label="Show tracks" title="Show tracks" hidden>
+      <svg><use href="#i-chevron"/></svg>
+    </button>
+    <label class="pl-main">
+      <input type="checkbox">
+      <span class="pl-index"></span>
+      <img class="pl-thumb" alt="" loading="lazy" referrerpolicy="no-referrer">
+      <span class="pl-title"></span>
+      <span class="pl-dur"></span>
+    </label>
+  </div>
+</template>
+
+<template id="toastTemplate">
+  <div class="toast">
+    <div class="toast-body">
+      <span class="toast-msg"></span>
+      <span class="toast-detail" hidden></span>
+    </div>
+    <button class="toast-x" type="button" aria-label="Dismiss">
+      <svg><use href="#i-x"/></svg>
+    </button>
+  </div>
+</template>
+
+<template id="jobTemplate">
+  <article class="job">
+    <div class="job-top">
+      <span class="job-title"></span>
+      <span class="job-format"></span>
+      <span class="job-state"></span>
+      <button class="text-btn job-action" type="button" hidden></button>
+    </div>
+    <div class="job-track"><i></i></div>
+    <div class="job-meta">
+      <span class="job-detail"></span>
+      <span class="job-pct"></span>
+    </div>
+    <div class="task-list" hidden></div>
+    <p class="job-error" hidden></p>
+  </article>
+</template>
+
+<template id="taskRowTemplate">
+  <div class="task-row">
+    <span class="task-title"></span>
+    <span class="task-pct"></span>
+  </div>
+</template>
+
+<script src="app.js" defer></script>
+</body>
+</html>
